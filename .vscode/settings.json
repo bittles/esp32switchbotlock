@@ -1,0 +1,10 @@
+{
+  "cSpell.words": [
+    "encryptor",
+    "Switchbot"
+  ],
+  "files.associations": {
+    "*.embeddedhtml": "html",
+    "functional": "cpp"
+  }
+}
