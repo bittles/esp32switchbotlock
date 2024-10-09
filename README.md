@@ -1,4 +1,4 @@
-# ESP32 (M5Stick Atom S3 Light) BLEでSwitchBotスマートロックを制御
+# ESP32 (M5 Atom S3 Lite) BLEでSwitchBotスマートロックを制御
 
 ## 本Repositoryについて
 
@@ -9,9 +9,11 @@ PlatformIOで*ESP32*の*Arduino*を使用しています。
 デフォルトでは、スマートロックの開閉をBLE経由で行うためのコードです。
 `src/Switchbots`以下に、スマートロック以外のSwitchBot製品のコードもありますので、少し改造すれば他の機器（例えば、[スマート電球](https://amzn.to/4eIQ47W)や、[テープライト](https://amzn.to/4enQf8K)など）もBLEで操作できます。
 
-M5Stick Atom S3 Lightのボタンを押すと**Lock**（施錠）、ボタンの長押しで**Unlock**（解錠）します。
+M5 Atom S3 Liteのボタンを押すと**Lock**（施錠）、ボタンの長押しで**Unlock**（解錠）します。
 
-詳しくは、筆者のブログ記事「[テック大家さん](https://tech-landlord.com)」もご覧下さい。
+![動作中動画](https://tech-landlord.com/wp-content/uploads/2024/10/SwitchBot-M5-lock.gif)
+
+詳しくは、筆者のブログ「[テック大家さん](https://tech-landlord.com)」にて[解説記事](https://tech-landlord.com/articles/switchbot-smartlock-with-ble-api-explaining-protocol-esp32-m5-atoms3/)も書いています。記事内ではプロトコル詳細も整理していますので本リポジトリのコードを利用する際の参考になるはずです。
 
 ## SwitchBot BLE API (プロトコル)について
 
