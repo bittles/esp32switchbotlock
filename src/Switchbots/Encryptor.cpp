@@ -17,7 +17,7 @@ Encryptor::~Encryptor()
 
 String Encryptor::encrypt(const String &hexStr)
 {
-  // 16進数文字列をバイト列に変換
+  // Convert hexadecimal strings to byte strings
   size_t length = hexStr.length() / 2;
   uint8_t *input = new uint8_t[length];
   hexStringToByteArray(hexStr, input, length);
@@ -32,7 +32,7 @@ String Encryptor::encrypt(const String &hexStr)
   mbedtls_aes_crypt_ctr(&aes, length, &nc_off, nonce_counter, stream_block,
                         input, output);
 
-  // 結果を16進数文字列に変換
+  // Convert the result to a hexadecimal string
   String result = byteArrayToHexString(output, length);
 
   delete[] input;
