@@ -4,11 +4,11 @@
 
 void setup()
 {
-  Serial.begin(115200); // シリアル通信の開始
+  Serial.begin(115200); // Start of serial communication
   // while (!Serial)
   // {
   //   ;
-  // } // シリアル通信の準備ができるまで待つ
+  // } // Wait until serial communication is ready
   Serial.flush();
   delay(1200);
   Serial.println("M5AtomS3 initializing...OK");
