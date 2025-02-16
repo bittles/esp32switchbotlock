@@ -1,59 +1,54 @@
-# ESP32 (M5 Atom S3 Lite) BLEでSwitchBotスマートロックを制御
+# Control SwitchBot smart lock with ESP32 (M5 Atom S3 Lite) BLE
+Simple translation to english with Vivaldi's translate with American amazon links.
+## About this repository
+It is a program that controls [SwitchBot smart locks](https://www.amazon.com/SwitchBot-Electronic-Deadbolt-Existing-Vacation/dp/B09Z6WCL6P) using ESP32's BLE (Bluetooth Low Energy) protocol.
 
-## 本Repositoryについて
+I am using an ESP32 Arduino on PlatformIO.
 
-ESP32のBLE（Bluetooth Low Energy）プロトコルで[SwitchBot スマートロック](https://amzn.to/47K3dew)を制御するプログラムです。
-
-PlatformIOで*ESP32*の*Arduino*を使用しています。
-
-デフォルトでは、スマートロックの開閉をBLE経由で行うためのコードです。
-`src/Switchbots`以下に、スマートロック以外のSwitchBot製品のコードもありますので、少し改造すれば他の機器（例えば、[スマート電球](https://amzn.to/4eIQ47W)や、[テープライト](https://amzn.to/4enQf8K)など）もBLEで操作できます。
-
-M5 Atom S3 Liteのボタンを押すと**Lock**（施錠）、ボタンの長押しで**Unlock**（解錠）します。
+By default, this code allows you to open and close smart locks via BLE.  Under src/Switchbots, there are also codes for SwitchBot products other than smart locks, so if you modify them a little, you can operate other devices (for example, [smart light bulbs](https://us.switch-bot.com/products/switchbot-color-bulb?variant=43179775492329), tape lights, etc.) with BLE.
 
 ![動作中動画](https://tech-landlord.com/wp-content/uploads/2024/10/SwitchBot-M5-lock.gif)
+Press the M5 Atom S3 Lite button to lock, and press and hold the button to unlock.
 
-詳しくは、筆者のブログ「[テック大家さん](https://tech-landlord.com)」にて[解説記事](https://tech-landlord.com/articles/switchbot-smartlock-with-ble-api-explaining-protocol-esp32-m5-atoms3/)も書いています。記事内ではプロトコル詳細も整理していますので本リポジトリのコードを利用する際の参考になるはずです。
+For more information, I have also written an explanatory article on my blog ''[Tech Landlord](https://tech-landlord.com)''. The protocol details are also organized in [the article](https://tech-landlord.com/articles/switchbot-smartlock-with-ble-api-explaining-protocol-esp32-m5-atoms3), so it should be helpful when using the code in this repository.
 
-## SwitchBot BLE API (プロトコル)について
+## SwitchBot BLE API (About protocol)
 
-SwitchBot製品のBLE APIについては、以下のサイトに文書化された情報があります。
+There is documented information about the BLE API for SwitchBot products on the following sites.
 
 * [SwitchBotAPI-BLE (Github)](https://github.com/OpenWonderLabs/SwitchBotAPI-BLE)
 
-ただし、上記のAPI仕様ではSwitchBotのいくつかの製品のコマンドは書かれているものの、SwitchBotスマートロックについては、記述がありません。
+However, although the above API specifications include commands for some SwitchBot products, there is no mention of SwitchBot smart locks.
 
-一方、以下のNodeJSを使うTypeScriptで書かれたライブラリの実装としてスマートロックのBLE操作が実装されています。
+On the other hand, smart lock BLE operations are implemented as an implementation of the following library written in TypeScript that uses NodeJS.
 
 * [node-switchbot (Github)](https://github.com/OpenWonderLabs/node-switchbot)
 
+Therefore, the code in this repository is a port of the necessary parts from the [node-switchbot (Github)](https://github.com/OpenWonderLabs/node-switchbot) TypeScript code for ESP32 Arduino.
 
-そこで、本Repositoryのコードは、[node-switchbot (Github)](https://github.com/OpenWonderLabs/node-switchbot)のTypeScriptのコードから必要な部分を*ESP32 Arduino*用に移植したものになっています。
 
+## Payload encryption
 
-## ペイロードの暗号化
+Payload encryption is required to operate SwitchBot smart locks with BLE.
 
-SwitchBotスマートロックをBLEで操作するためには、ペイロードの暗号化が必要です。
+The KeyId and EncryptionKey required for encryption must be set appropriately in src/DeviceAddr_example.h (). If used, src/DeviceAddr.h must be renamed
 
-`src/DeviceAddr_example.h`に暗号化に必要な`KeyId`と`EncryptionKey`を適切に設定する必要があります。（使用する場合は、`src/DeviceAddr.h`に名前変更が必要）
+This value is obtained by the following program.
 
-この値は、以下のプログラムで取得します。
-
-使用には、SwitchBotのクラウドのログイン情報が必要になります。
+To use it, you will need your SwitchBot cloud login information.
 
 * [switchbot-get-encryption-key (Github)](
 https://github.com/shizuka-na-kazushi/switchbot-get-encryption-key)
 
-（または、[Danielhiversen/pySwitchbot](https://github.com/Danielhiversen/pySwitchbot/tree/master?tab=readme-ov-file#obtaining-locks-encryption-key)も利用可能）
+（Or [Danielhiversen/pySwitchbot](https://github.com/Danielhiversen/pySwitchbot/tree/master?tab=readme-ov-file#obtaining-locks-encryption-key) is also available)
 
+Regarding KeyId and EncryptionKey, a little information is written in the [setKey() description of the node-switchbot](https://github.com/OpenWonderLabs/node-switchbot?tab=readme-ov-file#setkey-method) library.
 
-`KeyId`と`EncryptionKey`に関しては、[node-switchbotライブラリのsetKey()の説明](https://github.com/OpenWonderLabs/node-switchbot?tab=readme-ov-file#setkey-method)に情報が少し書かれています。
+The cipher uses AES 128bit CTR mode.
 
-暗号は、AES 128bit CTRモードを使用します。
+## Dependencies
 
-## 依存関係
-
-以下のライブラリに依存しています。
+It relies on the following libraries.
 
 * m5stack/M5Unified@^0.1.16
 * fastled/FastLED@^3.7.0
@@ -61,5 +56,5 @@ https://github.com/shizuka-na-kazushi/switchbot-get-encryption-key)
 * h2zero/NimBLE-Arduino@^1.4.0
 * janelia-arduino/Vector@^1.2.2
 
-（BLEは軽量の[NimBLE](https://github.com/h2zero/NimBLE-Arduino)を使用）
+（BLE uses lightweight NimBLE](https://github.com/h2zero/NimBLE-Arduino)を使用）
 
