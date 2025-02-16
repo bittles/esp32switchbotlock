@@ -56,5 +56,5 @@ It relies on the following libraries.
 * h2zero/NimBLE-Arduino@^1.4.0
 * janelia-arduino/Vector@^1.2.2
 
-（BLE uses lightweight NimBLE](https://github.com/h2zero/NimBLE-Arduino)を使用）
+（BLE uses lightweight NimBLE](https://github.com/h2zero/NimBLE-Arduino）
 
